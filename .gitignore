@@ -1,2 +1,67 @@
-/target
+# Rust build artifacts
+/target/
 Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# IDE and editor files
+.vscode/
+.idea/
+.windsurf/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Debug files
+debug/
+target/debug/
+
+# Release files
+target/release/
+target/bench/
+
+# Documentation build
+/doc/
+/docs/book/
+
+# Test artifacts
+/tests/target/
+
+# Profiling data
+*.prof
+*.perf
+
+# Coverage reports
+tarpaulin-report.html
+cobertura.xml
+lcov.info
+
+# Rust analyzer
+.rust-analyzer/
+
+# Local development
+local/
+dev/
+examples/target/
