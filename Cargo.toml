@@ -1,0 +1,12 @@
+[package]
+name = "torchforge-viz"
+version = "0.0.1"
+edition = "2024"
+description = "Lightweight training visualizer with TensorBoard-compatible output for Rust ML pipelines."
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/torchforge-rs/torchforge-viz"
+keywords = ["machine-learning", "tensorboard", "visualization", "training", "rust"]
+categories = ["science", "visualization"]
+
+[dependencies]
