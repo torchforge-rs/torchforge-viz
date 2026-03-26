@@ -1,6 +1,10 @@
 # Architecture
 
 > Living document. Decisions marked `[OPEN]` are not yet settled. No assumption is papered over.
+>
+> **Changelog**:
+> - `2026-03-26` — Added FDRL metric groups to `## RL-Native Metrics`; new `## FDRL Logging Considerations` section; updated `## Out of Scope` to reflect v1.x federation logging target.
+> - `2026-03-26 (v2)` — Added `## Rust ML Ecosystem Context` note from project knowledge section 13; confirmed viz approach is independent of NN backend choice.
 
 ---
 
@@ -183,6 +187,22 @@ Standard ML visualizers treat all scalars equally. RL training has specific metr
 
 **[OPEN]**: Whether typed metric groups should be a separate higher-level API layer above `SummaryWriter`, or integrated directly. Design deferred.
 
+<!-- v2: 2026-03-26 — FDRL metric groups added -->
+### FDRL Metric Groups *(added 2026-03-26)*
+
+When the training loop is federated (torchforge-federated, v1.x), additional metric groups become meaningful. These are **not v0.x implementation targets** — they are captured here so the v0.3.0 `RLLogger` API is designed to accommodate them without a breaking change.
+
+| Group | Metrics | Notes |
+|---|---|---|
+| Federation | federation round, devices participating, devices dropped | One event per aggregation round |
+| Local vs. global policy | local episode return, global policy return, policy divergence (KL) | Per-device logging; global is post-aggregation |
+| Gradient statistics | gradient norm (pre-aggregation), gradient norm (post-aggregation), gradient staleness | Critical for diagnosing FedAvg convergence issues |
+| Communication | bytes sent per round, aggregation latency | Edge-relevant: communication cost is a hard constraint |
+
+**Design implication for v0.3.0 `RLLogger`**: The typed metric API must use a tag namespace scheme that naturally extends to federation. Proposed convention: `local/<metric>` for per-device metrics, `global/<metric>` for aggregated metrics. This must be decided and documented at v0.3.0, before federation exists, so that v1.x logging is additive rather than a rename.
+
+**[OPEN]**: Tag namespace convention for local vs. global metrics — decision deferred to v0.3.0 design, but must account for FDRL before finalizing.
+
 ---
 
 ## Performance Considerations
@@ -216,6 +236,38 @@ When `add_scalars` is implemented, the PyTorch-compatible approach requires mult
 3. **TUI viability on constrained edge targets** — needs hardware testing
 4. **Histogram bucket schema** — needs exact verification against TensorBoard source
 5. **In-process vs. threaded TUI** — design decision not yet made
+6. **Tag namespace convention for FDRL local vs. global metrics** *(added 2026-03-26)* — must be decided at v0.3.0 before federation logging is needed
+
+---
+
+<!-- v2: 2026-03-26 — FDRL logging considerations section added -->
+## FDRL Logging Considerations *(added 2026-03-26)*
+
+In the federated RL scenario, each edge device runs its own `SummaryWriter` logging local training progress. A federation coordinator additionally needs to log global policy metrics after each aggregation round. These are two distinct log streams, not one.
+
+**Implication for v0.x design:**
+- The `SummaryWriter` interface as designed (one writer per log directory) is already compatible with this model — each device writes to its own `runs/device_<id>/` directory; the coordinator writes to `runs/global/`.
+- No API changes are required at v0.x to support FDRL logging. The constraint is namespace discipline in the tag convention (see `### FDRL Metric Groups` above).
+- The `MultiWriter` planned for v0.5.0 (fan-out to file + TUI simultaneously) is a precursor capability for the federation case where a single training step must log to both a local file and a federation-bound gradient buffer.
+
+**What FDRL logging does NOT require from v0.x:**
+- No network-aware writer
+- No shared-state between device writers
+- No aggregation logic in this crate
+
+Federation logging infrastructure belongs in torchforge-federated (v1.x). This crate provides the per-device primitive it builds on.
+
+---
+
+## Rust ML Ecosystem Context *(added 2026-03-26)*
+
+Project knowledge section 13 establishes where torchforge sits in the Rust ML stack. Reproduced here for orientation — the viz crate has no neural network backend dependency, but the training loops it observes will use `burn`.
+
+- `burn` — Native Rust training framework. The RL training loops this crate monitors will be burn-backed.
+- `candle` — Best for inference + LLMs. Not the training target.
+- `torchforge` — **builds ON TOP of burn/candle** for the edge RL training use case.
+
+**Implication for this crate**: No dependency on burn or candle is needed or wanted here. The `SummaryWriter` interface is intentionally framework-agnostic — it writes scalars, histograms, and images regardless of what computed them. This is the correct design. The ecosystem context confirms it: a visualizer that couples to a specific NN backend would be less useful across the stack, not more.
 
 ---
 
@@ -226,3 +278,4 @@ When `add_scalars` is implemented, the PyTorch-compatible approach requires mult
 - Audio summaries
 - Text summaries
 - Embedding projector
+- Federation-aware logging (multi-device aggregation, gradient statistics, communication metrics) — *deferred to v1.x as torchforge-federated; per-device logging is fully supported in v0.x*
