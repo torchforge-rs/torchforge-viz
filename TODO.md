@@ -102,9 +102,9 @@
 - [x] Note: the `proto/` vendoring decision (below) has supply chain implications — `.proto` files are not Rust crates and not covered by `cargo deny`; document the provenance explicitly in `proto/README.md`
 
 ### README Polish
-- [ ] Badges rendering correctly: crates.io, docs.rs, license, CI status
-- [ ] `protoc` installation noted as a build prerequisite
-- [ ] Links to `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`
+- [x] Badges rendering correctly: crates.io, docs.rs, license, CI status
+- [x] `protoc` installation noted as a build prerequisite
+- [x] Links to `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`
 
 ---
 

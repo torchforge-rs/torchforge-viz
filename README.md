@@ -10,6 +10,20 @@ Part of the [torchforge-rs](https://github.com/torchforge-rs) ecosystem.
 [![Rust](https://img.shields.io/badge/rust-2024%20edition-orange.svg)](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/)
 [![CI](https://github.com/torchforge-rs/torchforge-viz/actions/workflows/ci.yml/badge.svg)](https://github.com/torchforge-rs/torchforge-viz/actions/workflows/ci.yml)
 
+## Prerequisites
+
+- **Rust 1.85+** — Install from [rustup.rs](https://rustup.rs/)
+- **protoc** — Protocol Buffers compiler (required for building)
+  ```bash
+  # Ubuntu/Debian
+  sudo apt install protobuf-compiler
+  
+  # macOS
+  brew install protobuf
+  
+  # Or download from https://github.com/protocolbuffers/protobuf/releases
+  ```
+
 ---
 
 ## Why
@@ -98,7 +112,12 @@ logger.log_buffer(buffer_size, capacity, samples_per_sec, step)?;
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide — prerequisites (including `protoc`), branching model, PR process, and the Tier 1 / Tier 2 testing distinction.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide including:
+
+- Prerequisites (including `protoc` installation)
+- Branching model and PR process  
+- Code style and testing requirements
+- Tier 1 / Tier 2 testing distinction
 
 The most valuable contributions right now are:
 
