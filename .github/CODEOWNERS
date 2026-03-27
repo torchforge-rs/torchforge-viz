@@ -1,0 +1,27 @@
+# Code Owners File
+
+# This file contains a list of owners for different parts of the project.
+# Owners are automatically requested for review when someone opens a pull request
+# that modifies files they own.
+
+# Global owners - will be requested for review on any PR
+* @torchforge-rs/core
+
+# Architecture and design documents
+ARCHITECTURE.md @torchforge-rs/core
+
+# Protocol definitions
+proto/ @torchforge-rs/core
+
+# Security policy
+SECURITY.md @torchforge-rs/security
+
+# Core project metadata
+Cargo.toml @torchforge-rs/core
+
+# GitHub Actions workflows
+.github/workflows/ @torchforge-rs/core
+
+# Issue and PR templates
+.github/ISSUE_TEMPLATE/ @torchforge-rs/core
+.github/PULL_REQUEST_TEMPLATE.md @torchforge-rs/core

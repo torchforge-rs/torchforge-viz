@@ -18,7 +18,7 @@
 **Goal**: Establish the repository as a credible, contribution-ready OSS project before any functional code ships. These items are prerequisites for v0.1.0 — nothing is merged to `main` until Phase 0 is complete.
 
 ### Repository Structure
-- [ ] Initialize repository with standard layout:
+- [x] Initialize repository with standard layout:
   ```
   .github/
     workflows/
@@ -39,18 +39,18 @@
   SECURITY.md
   TODO.md
   ```
-- [ ] `Cargo.toml` with correct metadata: `name`, `version = "0.0.1"`, `edition = "2024"`, `rust-version = "1.85"`, `license = "Apache-2.0"`, `repository`, `homepage`, `description`, `keywords`, `categories`
-- [ ] `.gitignore` (standard Rust + editor artifacts + Python `__pycache__`, `.venv`)
-- [ ] `rust-toolchain.toml` pinning `stable` channel
+- [x] `Cargo.toml` with correct metadata: `name`, `version = "0.0.1"`, `edition = "2024"`, `rust-version = "1.85"`, `license = "Apache-2.0"`, `repository`, `homepage`, `description`, `keywords`, `categories`
+- [x] `.gitignore` (standard Rust + editor artifacts + Python `__pycache__`, `.venv`)
+- [x] `rust-toolchain.toml` pinning `stable` channel
 
 ### License
-- [ ] `LICENSE` — Apache-2.0 full text
-- [ ] SPDX identifier `Apache-2.0` in `Cargo.toml`
-- [ ] License header policy documented in `CONTRIBUTING.md`
+- [x] `LICENSE` — Apache-2.0 full text
+- [x] SPDX identifier `Apache-2.0` in `Cargo.toml`
+- [x] License header policy documented in `CONTRIBUTING.md`
 
 ### Governance Documents
-- [ ] `CODE_OF_CONDUCT.md` — Contributor Covenant v2.1
-- [ ] `CONTRIBUTING.md` — must cover:
+- [x] `CODE_OF_CONDUCT.md` — Contributor Covenant v2.1
+- [x] `CONTRIBUTING.md` — must cover:
   - Prerequisites: Rust 1.85+, `protoc` (required for `prost-build`), Python + `uv` (for Tier 2 compat testing only)
   - How to build locally (including `build.rs` proto compilation step)
   - Branching model and PR process
@@ -59,7 +59,7 @@
   - What "ready to merge" means (CI green, docs on all public items, CHANGELOG entry)
   - Tier 1 vs Tier 2 testing distinction: Tier 1 runs on every PR; Tier 2 (Python compat) is manual or release-branch only
   - Issue templates for bug reports, feature requests, design questions
-- [ ] `SECURITY.md` — must cover:
+- [x] `SECURITY.md` — must cover:
   - Supported versions (latest `v0.x` only, no backports)
   - Private reporting via GitHub Security Advisories
   - Response SLA: acknowledge within 72 hours, triage within 7 days
@@ -67,39 +67,39 @@
   - Out of scope: TensorBoard's own bugs, theoretical-only issues
 
 ### GitHub Templates
-- [ ] `.github/PULL_REQUEST_TEMPLATE.md` — checklist: description, linked issue, tests added/updated, docs updated, CHANGELOG entry, Tier 2 compat test run if event format changed
-- [ ] `.github/ISSUE_TEMPLATE/bug_report.md` — Rust version, OS, TensorBoard version, reproduction steps
-- [ ] `.github/ISSUE_TEMPLATE/feature_request.md` — problem, proposed API sketch, alternatives considered
-- [ ] `.github/ISSUE_TEMPLATE/design_question.md` — for pre-implementation architecture discussion
-- [ ] `CODEOWNERS` — assign owners to `ARCHITECTURE.md`, `proto/`, `SECURITY.md`, `Cargo.toml`
+- [x] `.github/PULL_REQUEST_TEMPLATE.md` — checklist: description, linked issue, tests added/updated, docs updated, CHANGELOG entry, Tier 2 compat test run if event format changed
+- [x] `.github/ISSUE_TEMPLATE/bug_report.md` — Rust version, OS, TensorBoard version, reproduction steps
+- [x] `.github/ISSUE_TEMPLATE/feature_request.md` — problem, proposed API sketch, alternatives considered
+- [x] `.github/ISSUE_TEMPLATE/design_question.md` — for pre-implementation architecture discussion
+- [x] `CODEOWNERS` — assign owners to `ARCHITECTURE.md`, `proto/`, `SECURITY.md`, `Cargo.toml`
 
 ### CI — GitHub Actions
-- [ ] `ci.yml` — runs on every push and PR to `main`:
+- [x] `ci.yml` — runs on every push and PR to `main`:
   - `cargo fmt --check`
   - `cargo clippy -- -D warnings`
   - `cargo test`
   - `cargo doc --no-deps`
   - Matrix: `[stable, nightly]` x `[ubuntu-latest]`
-- [ ] `audit.yml` — push to `main` + daily schedule:
+- [x] `audit.yml` — push to `main` + daily schedule:
   - `cargo audit`
   - `cargo deny check` (license policy, bans, advisories)
-- [ ] `compat.yml` — manual trigger (`workflow_dispatch`) only:
+- [x] `compat.yml` — manual trigger (`workflow_dispatch`) only:
   - Sets up Python via `uv`, installs `tensorboard`
   - Runs `tests/compat/` Python scripts to verify TensorBoard can read event files produced by the crate
   - Not a gate for every PR — run before releases or when event format changes
-- [ ] Cache `~/.cargo/registry` and `target/` across workflow runs
+- [x] Cache `~/.cargo/registry` and `target/` across workflow runs
 - [ ] Branch protection on `main`: all `ci.yml` checks required, at least one review required
 
 ### Changelog
-- [ ] `CHANGELOG.md` initialized per [Keep a Changelog](https://keepachangelog.com/) format
-- [ ] Policy: every PR changing behavior requires a CHANGELOG entry under `[Unreleased]`
+- [x] `CHANGELOG.md` initialized per [Keep a Changelog](https://keepachangelog.com/) format
+- [x] Policy: every PR changing behavior requires a CHANGELOG entry under `[Unreleased]`
 
 ### Supply Chain
-- [ ] `deny.toml` for `cargo deny`:
+- [x] `deny.toml` for `cargo deny`:
   - Licenses: allowlist `Apache-2.0`, `MIT`, `MIT-0`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC`, `Unicode-DFS-2016`
   - Bans: deny duplicate crate versions where avoidable
   - Advisories: deny all known vulnerabilities
-- [ ] Note: the `proto/` vendoring decision (below) has supply chain implications — `.proto` files are not Rust crates and not covered by `cargo deny`; document the provenance explicitly in `proto/README.md`
+- [x] Note: the `proto/` vendoring decision (below) has supply chain implications — `.proto` files are not Rust crates and not covered by `cargo deny`; document the provenance explicitly in `proto/README.md`
 
 ### README Polish
 - [ ] Badges rendering correctly: crates.io, docs.rs, license, CI status

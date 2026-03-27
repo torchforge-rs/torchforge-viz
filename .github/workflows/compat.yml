@@ -1,0 +1,72 @@
+name: TensorBoard Compatibility
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for running compatibility test'
+        required: false
+        default: 'Manual test'
+        type: string
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  compat:
+    name: TensorBoard Compatibility Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+    
+    - name: Cache cargo registry and target
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-compat-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-compat-
+          ${{ runner.os }}-cargo-
+    
+    - name: Install Python and uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: "tests/compat/pyproject.toml"
+    
+    - name: Build torchforge-viz
+      run: cargo build --release
+    
+    - name: Set up Python environment
+      working-directory: tests/compat
+      run: |
+        uv sync
+    
+    - name: Install TensorBoard
+      working-directory: tests/compat
+      run: |
+        uv add tensorboard
+    
+    - name: Run compatibility tests
+      working-directory: tests/compat
+      run: |
+        uv run python test_tensorboard_compatibility.py
+    
+    - name: Upload test artifacts
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: compat-test-logs
+        path: |
+          tests/compat/test_output/
+          tests/compat/logs/
+        retention-days: 7
