@@ -5,23 +5,23 @@
 # that modifies files they own.
 
 # Global owners - will be requested for review on any PR
-* @torchforge-rs/core
+* @torchforge-rs/core @SHA888
 
 # Architecture and design documents
-ARCHITECTURE.md @torchforge-rs/core
+ARCHITECTURE.md @torchforge-rs/core @SHA888
 
 # Protocol definitions
-proto/ @torchforge-rs/core
+proto/ @torchforge-rs/core @SHA888
 
 # Security policy
-SECURITY.md @torchforge-rs/security
+SECURITY.md @torchforge-rs/security @SHA888
 
 # Core project metadata
-Cargo.toml @torchforge-rs/core
+Cargo.toml @torchforge-rs/core @SHA888
 
 # GitHub Actions workflows
-.github/workflows/ @torchforge-rs/core
+.github/workflows/ @torchforge-rs/core @SHA888
 
 # Issue and PR templates
-.github/ISSUE_TEMPLATE/ @torchforge-rs/core
-.github/PULL_REQUEST_TEMPLATE.md @torchforge-rs/core
+.github/ISSUE_TEMPLATE/ @torchforge-rs/core @SHA888
+.github/PULL_REQUEST_TEMPLATE.md @torchforge-rs/core @SHA888
