@@ -78,4 +78,4 @@ jobs:
           ${{ runner.os }}-cargo-
     
     - name: Check documentation
-      run: cargo doc --no-deps --document-private-items --dry-run
+      run: cargo doc --no-deps --document-private-items
