@@ -6,23 +6,19 @@ Part of the [torchforge-rs](https://github.com/torchforge-rs) ecosystem.
 
 [![Crates.io](https://img.shields.io/crates/v/torchforge-viz.svg)](https://crates.io/crates/torchforge-viz)
 [![Docs.rs](https://docs.rs/torchforge-viz/badge.svg)](https://docs.rs/torchforge-viz)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/torchforge-rs/torchforge-viz/blob/main/LICENSE)
 [![Rust](https://img.shields.io/badge/rust-2024%20edition-orange.svg)](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/)
 [![CI](https://github.com/torchforge-rs/torchforge-viz/actions/workflows/ci.yml/badge.svg)](https://github.com/torchforge-rs/torchforge-viz/actions/workflows/ci.yml)
 
-## Prerequisites
+---
 
-- **Rust 1.85+** — Install from [rustup.rs](https://rustup.rs/)
-- **protoc** — Protocol Buffers compiler (required for building)
-  ```bash
-  # Ubuntu/Debian
-  sudo apt install protobuf-compiler
-  
-  # macOS
-  brew install protobuf
-  
-  # Or download from https://github.com/protocolbuffers/protobuf/releases
-  ```
+## The Destination
+
+The long-term target of the torchforge-rs ecosystem is **Federated Deep Reinforcement Learning (FDRL) at the edge**: a fleet of constrained devices, each running a local DRL agent learning from its own physical environment, sharing only gradients with a coordinator. No cloud. No Python.
+
+`torchforge-viz` is the observability layer for that target. In a federated setting, you need to watch per-device learning curves, policy entropy, and buffer statistics — on-device, in real time, without routing telemetry through a cloud dashboard. The `RLLogger` typed metric API and terminal UI (TUI) mode exist precisely because the display server assumption breaks at the edge.
+
+This crate is v0.x infrastructure. FDRL is the v1.x target. The claim is not yet earned — the foundation has to be built first.
 
 ---
 
@@ -30,9 +26,9 @@ Part of the [torchforge-rs](https://github.com/torchforge-rs) ecosystem.
 
 Training a model without visibility is flying blind. For Rust ML pipelines, the options today are:
 
-- `tensorboard-rs` — exists, but has ~164 downloads/month and is effectively unmaintained
-- Route metrics through Python — defeats the purpose of a Rust pipeline
-- Roll your own — repeated work, no standard
+* `tensorboard-rs` — exists, but has ~164 downloads/month and is effectively unmaintained
+* Route metrics through Python — defeats the purpose of a Rust pipeline
+* Roll your own — repeated work, no standard
 
 TensorBoard itself ships a Rust backend ([RustBoard](https://github.com/tensorflow/tensorboard/blob/master/docs/design/rustboard.md), since TensorBoard 2.5.0) because the Python data loading path was too slow. The wire format is stable and well-understood. What's missing is a **well-maintained, first-class Rust writer** for that format.
 
@@ -60,14 +56,14 @@ The repository structure, CI, governance documents, and OSS foundation are compl
 1. **`[LEGAL]`** — Licensing of deriving protobuf definitions from TensorFlow's Apache-2.0 `.proto` files must be confirmed
 2. **`[RESEARCH]`** — TensorBoard protobuf schema compatibility with versions >= 2.15 must be verified
 
-Neither of these is expected to be blocking long-term, but neither will be assumed away. See [ARCHITECTURE.md](ARCHITECTURE.md) for full detail.
+Neither of these is expected to be blocking long-term, but neither will be assumed away. See [ARCHITECTURE.md](https://github.com/torchforge-rs/torchforge-viz/blob/main/ARCHITECTURE.md) for full detail.
 
 ---
 
 ## Roadmap
 
 | Version | Goal |
-|---|---|
+| --- | --- |
 | **Pre-v0.1.0** | Schema verification, license review (hard blockers) |
 | **v0.1.0** | Scalar writing — correct TensorBoard event files readable by `tensorboard` |
 | **v0.2.0** | Histograms, images, `add_scalars` |
@@ -112,29 +108,24 @@ logger.log_buffer(buffer_size, capacity, samples_per_sec, step)?;
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide including:
-
-- Prerequisites (including `protoc` installation)
-- Branching model and PR process  
-- Code style and testing requirements
-- Tier 1 / Tier 2 testing distinction
+See [CONTRIBUTING.md](https://github.com/torchforge-rs/torchforge-viz/blob/main/CONTRIBUTING.md) for the full guide — prerequisites (including `protoc`), branching model, PR process, and the Tier 1 / Tier 2 testing distinction.
 
 The most valuable contributions right now are:
 
-- Verifying TensorBoard protobuf schema compatibility (>= v2.15) — this unblocks v0.1.0
-- Confirming the Apache-2.0 licensing position on derived `.proto` definitions — this unblocks v0.1.0
-- Testing on edge targets without a display server
-- Identifying RL-specific metrics not covered by the current `RLLogger` design
+* Verifying TensorBoard protobuf schema compatibility (>= v2.15) — this unblocks v0.1.0
+* Confirming the Apache-2.0 licensing position on derived `.proto` definitions — this unblocks v0.1.0
+* Testing on edge targets without a display server
+* Identifying RL-specific metrics not covered by the current `RLLogger` design
 
 **Open an issue before submitting a PR.**
 
-Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before participating.
-To report a security issue, see [SECURITY.md](SECURITY.md).
+Please read our [Code of Conduct](https://github.com/torchforge-rs/torchforge-viz/blob/main/CODE_OF_CONDUCT.md) before participating.
+To report a security issue, see [SECURITY.md](https://github.com/torchforge-rs/torchforge-viz/blob/main/SECURITY.md).
 
 ---
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](https://github.com/torchforge-rs/torchforge-viz/blob/main/LICENSE).
 
 Part of the [torchforge-rs](https://github.com/torchforge-rs) ecosystem — also see [torchforge-data](https://github.com/torchforge-rs/torchforge-data) and [torchforge-bench](https://github.com/torchforge-rs/torchforge-bench).
