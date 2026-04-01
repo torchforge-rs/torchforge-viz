@@ -112,10 +112,10 @@
 
 **These two items are hard blockers. No implementation begins until both are resolved.**
 
-- [ ] `[LEGAL]` Confirm licensing of deriving protobuf definitions from TensorFlow `.proto` files (Apache-2.0). The `.proto` files are Apache-2.0 licensed; the question is whether vendoring them and compiling derived Rust structs via `prost-build` creates any license obligation beyond attribution. Needs explicit review — do not assume it is fine.
-- [ ] `[RESEARCH]` Verify TensorBoard protobuf schema against current TensorBoard source (>= v2.15). Confirm the `event.proto` / `summary.proto` schema has not changed in a breaking way. Document the exact TensorBoard version range this crate targets.
-- [ ] `[RESEARCH]` Verify masked CRC32C implementation matches TensorFlow's exact formula against published test vectors
-- [ ] `[RESEARCH]` Verify `tensorboard-rs` as prior art reference — do not copy, but understand what it got right and wrong
+- [x] `[LEGAL]` Confirm licensing of deriving protobuf definitions from TensorFlow `.proto` files (Apache-2.0). The `.proto` files are Apache-2.0 licensed; the question is whether vendoring them and compiling derived Rust structs via `prost-build` creates any license obligation beyond attribution. Needs explicit review — do not assume it is fine.
+- [x] `[RESEARCH]` Verify TensorBoard protobuf schema against current TensorBoard source (>= v2.15). Confirm the `event.proto` / `summary.proto` schema has not changed in a breaking way. Document the exact TensorBoard version range this crate targets.
+- [x] `[RESEARCH]` Verify masked CRC32C implementation matches TensorFlow's exact formula against published test vectors
+- [x] `[RESEARCH]` Verify `tensorboard-rs` as prior art reference — do not copy, but understand what it got right and wrong
 
 ---
 
@@ -124,7 +124,7 @@
 **Goal**: Write scalar events readable by TensorBoard. The minimum bar for a training loop to be observable.
 
 ### Project Setup
-- [ ] Vendor required `.proto` files into `proto/` directory — `[BLOCKED]` on `[LEGAL]` above
+- [ ] Vendor required `.proto` files into `proto/` directory
 - [ ] `proto/README.md` documenting source URLs, upstream commit hash, and license attribution
 - [ ] Set up `build.rs` with `prost-build` for proto compilation
 - [ ] Add dependencies: `prost`, `thiserror`, `crc32c`
